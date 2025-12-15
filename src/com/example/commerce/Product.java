@@ -6,12 +6,14 @@ public class Product {
     private double price;
     private int quantity;
     private String description;
+    private String category;
 
     // 생성자
-    public Product(String name, double price, String description) {
+    public Product(String name, double price, String description, String category) {
         this.name = name;
         this.price = price;
         this.description = description;
+        this.category = category;
     }
 
     // 게터
@@ -25,5 +27,9 @@ public class Product {
 
     public String getDescription() {
         return description;
+    }
+
+    public String getCategory() {
+        return category;
     }
 }
