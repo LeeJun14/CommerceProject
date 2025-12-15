@@ -76,7 +76,7 @@ public class CommerceSystem {
         System.out.println(0 + ". 뒤로가기");
     }
 
-    // 상품 선택 (get 메서드에 choice -1 반복 사용. 재사용 가능한 변수 선언으로 코드 간결화 필요!)
+    // 상품 선택
     public void selectProduct(List<Product> products) {
         int choiceProduct = sc.nextInt();
         // 선택된 상품 배열 인덱스 지정
