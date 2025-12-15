@@ -14,6 +14,7 @@ public class Product {
         this.description = description;
     }
 
+    // 게터
     public String getName() {
         return name;
     }
