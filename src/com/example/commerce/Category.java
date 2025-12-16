@@ -21,7 +21,8 @@ public class Category {
         products.add(new Product("가디건", 50000, "가볍게 입기 좋은 가디건", "의류"));
     }
 
+    // List는 가변형 객체이기 때문에 복사본으로 반환
     public List<Product> getProducts() {
-        return products;
+        return new ArrayList<>(products);
     }
 }

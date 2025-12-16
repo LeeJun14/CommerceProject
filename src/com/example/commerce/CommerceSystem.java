@@ -79,7 +79,6 @@ public class CommerceSystem {
     // 상품 선택
     public void selectProduct(List<Product> products) {
         int choiceProduct = sc.nextInt();
-        // 선택된 상품 배열 인덱스 지정
         Product selectedProduct = products.get(choiceProduct - 1);
 
         // 입력 받은 숫자에 따른 분기 조건
