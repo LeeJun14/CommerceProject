@@ -79,7 +79,6 @@ public class CommerceSystem {
     // 상품 선택
     public void selectProduct(List<Product> products) {
         int choiceProduct = sc.nextInt();
-        Product selectedProduct = products.get(choiceProduct - 1);
 
         // 입력 받은 숫자에 따른 분기 조건
         if (choiceProduct == 0) {
@@ -87,6 +86,7 @@ public class CommerceSystem {
         } else if(choiceProduct > products.size() || choiceProduct < 0) {
             System.out.println("입력하신 숫자에 해당하는 상품이 존재하지 않습니다.");
         } else {
+            Product selectedProduct = products.get(choiceProduct - 1);
             System.out.println(selectedProduct.getName() + " | " + selectedProduct.getPrice() + " | " + selectedProduct.getDescription());
         }
     }
