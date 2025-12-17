@@ -9,11 +9,12 @@ public class Product {
     private String category;
 
     // 생성자
-    public Product(String name, double price, String description, String category) {
+    public Product(String name, double price, String description, String category, int quantity) {
         this.name = name;
         this.price = price;
         this.description = description;
         this.category = category;
+        this.quantity = quantity;
     }
 
     // 게터
@@ -32,4 +33,8 @@ public class Product {
     public String getCategory() {
         return category;
     }
+
+    public int getQuantity() {return quantity;}
+
+    public void setQuantity(int quantity) {this.quantity = quantity;}
 }
