@@ -9,6 +9,7 @@ public class CommerceSystem {
     Category categories = new Category();
     Scanner sc = new Scanner(System.in);
     ShoppingBasket shoppingBasket = new ShoppingBasket();
+    AdminMode password = new AdminMode();
 
 
     public void start(){
@@ -82,7 +83,28 @@ public class CommerceSystem {
                 System.out.println("주문 취소!");
                 shoppingBasket.basketClear();
                 continue;
-            } else if(choiceCategory < 0 || choiceCategory > 3){
+            } else if(choiceCategory == 6){
+                int count = 0;
+                boolean flag = true;
+                while(flag){
+                    System.out.print("관리자 비밀번호를 입력해주세요: ");
+                    String inputPassword =  sc.next();
+
+                    if(!inputPassword.equals(password.getPassword())){
+                        System.out.println("잘못된 비밀번호입니다. 다시 입력하여 주세요.\n");
+                        count++;
+                        if(count == 3){
+                            System.out.println("비밀번호 3회 실패로 메인 메뉴로 돌아갑니다.\n");
+                            flag = false;
+                        }
+                    } else {
+                        flag = false;
+                        password.displayAdminMode();
+                    }
+                }
+                continue;
+            }
+            else if(choiceCategory < 0 || choiceCategory > 3){
                 System.out.println("올바른 카테고리 값이 아닙니다.\n");
                 continue;
             }
@@ -141,6 +163,7 @@ public class CommerceSystem {
         System.out.println(2 + ". 식품");
         System.out.println(3 + ". 의류");
         System.out.println(0 + ". " + "종료 | 프로그램 종료");
+        System.out.println(6 + ". 관리자 모드");
     }
 
     // 주문 관리 목록 출력
