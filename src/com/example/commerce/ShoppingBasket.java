@@ -15,10 +15,6 @@ public class ShoppingBasket {
         shoppingBasket.add(product);
     }
 
-    public void setShoppingBasket(List<Product> shoppingBasket){
-        this.shoppingBasket = shoppingBasket;
-    }
-
     public List<Product> basketDetails() {
         List<Product> processedProducts = new ArrayList<>();
         int totalPrice = 0;

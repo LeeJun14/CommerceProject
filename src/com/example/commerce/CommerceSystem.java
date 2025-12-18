@@ -192,15 +192,11 @@ public class CommerceSystem {
                             System.out.println(2 + ". 취소");
                             int deleteProduct = sc.nextInt();
                             if(deleteProduct == 1){
-                                List<Product> deletedProduct = shoppingBasket.getShoppingBasket().stream().filter(product -> !product.getName().equals(choiceDelete)).collect(Collectors.toList());
-                                categories.setProducts(deletedProduct);
+                                // 상품 삭제
+                                categories.getProducts().removeIf(product -> product.getName().equals(choiceDelete));
+                                // 장바구니 상품 삭제
+                                shoppingBasket.getShoppingBasket().removeIf(product -> product.getName().equals(choiceDelete));
                                 System.out.println("해당 상품을 삭제하였습니다.");
-                                for(Product product : shoppingBasket.getShoppingBasket()) {
-                                    if(product.getName().equals(choiceDelete)) {
-                                        List<Product> deletedBasket = categories.getProducts().stream().filter(basket -> !product.getName().equals(choiceDelete)).collect(Collectors.toList());
-                                        shoppingBasket.setShoppingBasket(deletedBasket);
-                                    }
-                                }
                             } else  if(deleteProduct == 2){
                                 System.out.println("삭제를 취소하였습니다.");
                             } else {
