@@ -85,9 +85,10 @@ public class CommerceSystem {
             } else if(choiceCategory == 6){
                 int count = 0;
                 boolean flag = true;
+
+                System.out.print("관리자 비밀번호를 입력해주세요: ");
+                String inputPassword =  sc.next();
                 while(flag){
-                    System.out.print("관리자 비밀번호를 입력해주세요: ");
-                    String inputPassword =  sc.next();
 
                     if(!inputPassword.equals(password.getPassword())){
                         System.out.println("잘못된 비밀번호입니다. 다시 입력하여 주세요.\n");
@@ -95,6 +96,9 @@ public class CommerceSystem {
                         if(count == 3){
                             System.out.println("비밀번호 3회 실패로 메인 메뉴로 돌아갑니다.\n");
                             flag = false;
+                        } else {
+                            System.out.println("관리자 비밀번호를 입력해주세요: ");
+                            inputPassword = sc.next();
                         }
                     } else {
                         password.displayAdminMode();
@@ -134,7 +138,46 @@ public class CommerceSystem {
                             }
 
                         } else  if(adminMode == 2){
-                            // 상품 수정 메서드
+                            System.out.print("수정할 상품명을 입력해주세요: ");
+                            String productName = sc.next();
+                            boolean found = false;
+                            for(Product product : categories.getProducts()){
+                                if(product.getName().equals(productName)){
+                                    found = true;
+                                    System.out.println(product.getName() + " | " + product.getPrice() + " | " + product.getDescription() + " | 재고: " + product.getQuantity() + "\n");
+                                    System.out.println("[ 수정 항목 ]");
+                                    System.out.println(1 + ". 가격");
+                                    System.out.println(2+ ". 설명");
+                                    System.out.println(3 + ". 재고수량");
+                                    int choiceFiled = sc.nextInt();
+
+                                    if(choiceFiled == 1){
+                                        System.out.println("현재 가격: " + product.getPrice());
+                                        System.out.print("새로운 가격을 입력해주세요: ");
+                                        int setPrice = sc.nextInt();
+                                        System.out.println(product.getName() + "의 가격이 " + product.getPrice() + "원 → " + setPrice + "원으로 수정되었습니다.\n");
+                                        product.setPrice(setPrice);
+                                    } else if (choiceFiled == 2) {
+                                        System.out.println("현재 설명: " + product.getDescription());
+                                        System.out.print("새로운 설명을 입력해주세요: ");
+                                        String setDescription = sc.next();
+                                        System.out.println(product.getName() + "의 설명이 " + product.getDescription() + " → " + setDescription + "으로 수정되었습니다.\n");
+                                        product.setDescription(setDescription);
+                                    } else if (choiceFiled == 3) {
+                                        System.out.println("현재 재고수량: " + product.getQuantity());
+                                        System.out.print("새로운 설명을 입력해주세요: ");
+                                        int setQuantity = sc.nextInt();
+                                        System.out.println(product.getName() + "의 재고수량이 " + product.getQuantity() + "  → " + setQuantity + "으로 수정되었습니다.\n");
+                                        product.setQuantity(setQuantity);
+                                    }
+                                    break;
+                                }
+                            }
+                            if(!found) {
+                                System.out.println("존재하지 않는 상품입니다.");
+                                continue;
+                            }
+                            flag = false;
                         } else if (adminMode == 3){
                             // 상품 삭제
                         } else if(adminMode == 4){
