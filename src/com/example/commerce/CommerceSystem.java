@@ -3,6 +3,7 @@ package com.example.commerce;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class CommerceSystem {
     // 객체 생성
@@ -130,14 +131,17 @@ public class CommerceSystem {
                             if(addProduct == 1){
                                 Product addNewProduct = new Product(productName, productPrice, productDescription, selectedCategory, productQuantity);
                                 categories.addProduct(addNewProduct);
-                                flag = false;
                             } else if(addProduct == 2){
-                                flag = false;
+                                System.out.println("상품 추가를 취소하였습니다.");
                             }else{
                                 System.out.println("잘못된 입력입니다.");
                             }
 
                         } else  if(adminMode == 2){
+                            for(Product product : categories.getProducts()){
+                                System.out.println("[ 상품 목록 ]");
+                                System.out.println(product.getName() + " | " + product.getPrice() + " | " + product.getDescription() + " | 재고: " + product.getQuantity() + "\n");
+                            }
                             System.out.print("수정할 상품명을 입력해주세요: ");
                             String productName = sc.next();
                             boolean found = false;
@@ -175,13 +179,38 @@ public class CommerceSystem {
                             }
                             if(!found) {
                                 System.out.println("존재하지 않는 상품입니다.");
-                                continue;
                             }
-                            flag = false;
                         } else if (adminMode == 3){
-                            // 상품 삭제
+                            System.out.println("[ 상품 목록 ]");
+                            for(Product product : categories.getProducts()){
+                                System.out.println(product.getName() + " | " + product.getPrice() + " | " + product.getDescription() + " | 재고: " + product.getQuantity());
+                            }
+                            System.out.print("\n삭제할 상품의 이름을 입력하세요: ");
+                            String choiceDelete = sc.next();
+                            System.out.println("정말 상품을 삭제하시겠습니까?");
+                            System.out.println(1 + ". 확인");
+                            System.out.println(2 + ". 취소");
+                            int deleteProduct = sc.nextInt();
+                            if(deleteProduct == 1){
+                                List<Product> deletedProduct = shoppingBasket.getShoppingBasket().stream().filter(product -> !product.getName().equals(choiceDelete)).collect(Collectors.toList());
+                                categories.setProducts(deletedProduct);
+                                System.out.println("해당 상품을 삭제하였습니다.");
+                                for(Product product : shoppingBasket.getShoppingBasket()) {
+                                    if(product.getName().equals(choiceDelete)) {
+                                        List<Product> deletedBasket = categories.getProducts().stream().filter(basket -> !product.getName().equals(choiceDelete)).collect(Collectors.toList());
+                                        shoppingBasket.setShoppingBasket(deletedBasket);
+                                    }
+                                }
+                            } else  if(deleteProduct == 2){
+                                System.out.println("삭제를 취소하였습니다.");
+                            } else {
+                                System.out.println("잘못된 입력입니다.\n");
+                            }
                         } else if(adminMode == 4){
-                            // 전체 상품 현황
+                            System.out.println("[ 상품 목록 ]");
+                            for(Product product : categories.getProducts()){
+                                System.out.println(product.getName() + " | " + product.getPrice() + " | " + product.getDescription() + " | 재고: " + product.getQuantity());
+                            }
                         } else if (adminMode == 0){
                             flag = false;
                         } else {
