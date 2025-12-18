@@ -26,6 +26,10 @@ public class Category {
         return new ArrayList<>(products);
     }
 
+    public void addProduct(Product product) {
+        products.add(product);
+    }
+
     // List 재고 업데이트
     public void updateQuantity(String productName, int quantity) {
         for (Product p : products) {

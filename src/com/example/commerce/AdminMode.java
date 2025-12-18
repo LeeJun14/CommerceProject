@@ -27,12 +27,6 @@ public class AdminMode {
         System.out.println(3 + ". 식품");
     }
 
-    // 특정 카테고리 상품 추가 화면 출력
-    public void adminAddProduct(String categoryName) {
-        // CommerceSystem.getChoiceCategory() 메서드 활용 예정
-        System.out.println("[ " + categoryName + " 카테고리에 상품 추가 ]");
-    }
-
     public String getPassword() {
         return password;
     }

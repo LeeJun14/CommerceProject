@@ -37,7 +37,7 @@ public class CommerceSystem {
                 List<Product> basketDetails = shoppingBasket.basketDetails();
                 for(Product product : basketDetails){
                     System.out.println(product.getName() + " | " +  product.getPrice() + " | 수량: " + product.getQuantity());
-                    totalPrice += (product.getPrice() * product.getQuantity());
+                    totalPrice += (int) (product.getPrice() * product.getQuantity());
                 }
                 System.out.println("\n[ 총 주문 금액 ]");
                 System.out.println(totalPrice + "원\n");
@@ -52,7 +52,6 @@ public class CommerceSystem {
                         if (category.getName().equals(product.getName())) {
                             if(category.getQuantity() < product.getQuantity()){
                                 System.out.println(product.getName() + "의 재고가 부족하여 주문을 할 수 없습니다.");
-                                continue;
                             }
                         }
                     }
@@ -98,8 +97,53 @@ public class CommerceSystem {
                             flag = false;
                         }
                     } else {
-                        flag = false;
                         password.displayAdminMode();
+
+                        int adminMode = sc.nextInt();
+
+                        if(adminMode == 1){
+                            password.displayAdminCategory();
+
+                            int adminCategory = sc.nextInt();
+
+                            String selectedCategory = getChoiceCategory(adminCategory);
+
+                            System.out.println("[ " + selectedCategory + " 카테고리에 상품 추가 ]");
+                            System.out.print("상품명을 입력해주세요: ");
+                            String productName = sc.next();
+                            System.out.print("가격을 입력해주세요: ");
+                            int productPrice = sc.nextInt();
+                            System.out.print("상품 설명을 입력해주세요: ");
+                            String productDescription = sc.next();
+                            System.out.print("재고수량을 입력해주세요: ");
+                            int productQuantity = sc.nextInt();
+                            System.out.println("\n" + productName + " | " + productPrice + " | " + productDescription + " | 재고: " + productQuantity);
+                            System.out.println("위 정보로 상품을 추가하시겠습니까?");
+                            System.out.println(1 + ". 확인");
+                            System.out.println(2 + ". 취소");
+                            int addProduct = sc.nextInt();
+
+                            if(addProduct == 1){
+                                Product addNewProduct = new Product(productName, productPrice, productDescription, selectedCategory, productQuantity);
+                                categories.addProduct(addNewProduct);
+                                flag = false;
+                            } else if(addProduct == 2){
+                                flag = false;
+                            }else{
+                                System.out.println("잘못된 입력입니다.");
+                            }
+
+                        } else  if(adminMode == 2){
+                            // 상품 수정 메서드
+                        } else if (adminMode == 3){
+                            // 상품 삭제
+                        } else if(adminMode == 4){
+                            // 전체 상품 현황
+                        } else if (adminMode == 0){
+                            flag = false;
+                        } else {
+                            System.out.println("잘못된 입력입니다.\n");
+                        }
                     }
                 }
                 continue;
@@ -140,10 +184,8 @@ public class CommerceSystem {
 
             if(addShoppingBasket == 2){
                 System.out.println("장바구니 추가를 취소합니다.\n");
-                continue;
             } else if(addShoppingBasket < 1 || addShoppingBasket > 2){
                 System.out.println("입력하신 숫자는 유효한 요청이 아닙니다.\n");
-                continue;
             } else {
                 if(selectProduct.getQuantity() <= 0) {
                     System.out.println("재고가 부족합니다.");
@@ -175,12 +217,12 @@ public class CommerceSystem {
 
     // 선택한 카테고리 값 반환
     public String getChoiceCategory(int choice){
-        switch(choice){
-            case 1: return "전자제품";
-            case 2: return "식품";
-            case 3: return "의류";
-            default: return null;
-        }
+        return switch (choice) {
+            case 1 -> "전자제품";
+            case 2 -> "식품";
+            case 3 -> "의류";
+            default -> null;
+        };
     }
 
     // 선택된 카테고리 값을 가진 리스트 정리
