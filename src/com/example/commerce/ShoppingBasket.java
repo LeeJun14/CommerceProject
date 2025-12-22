@@ -56,6 +56,7 @@ public class ShoppingBasket {
         shoppingBasket.clear();
     }
 
+    // 특정 상품 제거
     public void removeProduct(String productName){
         shoppingBasket.removeIf(product -> product.getName().equals(productName));
     }

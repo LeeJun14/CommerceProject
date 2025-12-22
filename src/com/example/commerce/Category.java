@@ -30,6 +30,7 @@ public class Category {
         this.products = products;
     }
 
+    // 상품 추가
     public void addProduct(Product product) {
         products.add(product);
     }
