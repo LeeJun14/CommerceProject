@@ -98,8 +98,32 @@ public class CommerceSystem {
                     continue;
                 }
             } else if(choiceCategory == 5 && !shoppingBasket.isEmpty()) {
-                System.out.println("주문 취소!");
-                shoppingBasket.basketClear();
+                System.out.println("[ 장바구니 내역 ]");
+                List<Product> basketDetails = shoppingBasket.basketDetails();
+                for(Product product : basketDetails){
+                    System.out.println(product.getName() + " | " +  product.getPrice() + " | 수량: " + product.getQuantity());
+                }
+                System.out.println("1. 전체 취소");
+                System.out.println("2. 선택 취소");
+
+                int choiceCancel = sc.nextInt();
+
+                if(choiceCancel == 1){
+                    System.out.println("장바구나를 비웠습니다!");
+                    shoppingBasket.basketClear();
+                } else if(choiceCancel == 2){
+                    System.out.print("삭제할 상품의 이름을 입력하세요: ");
+                    String choiceProductName = sc.next();
+
+                    shoppingBasket.removeProduct(choiceProductName);
+                    System.out.println(choiceProductName + "을(를) 장바구니에서 삭제했습니다.");
+                } else {
+                    System.out.println("잘못된 선택 요청입니다.");
+                    continue;
+                }
+
+
+
                 continue;
             } else if(choiceCategory == 6){
                 int count = 0;

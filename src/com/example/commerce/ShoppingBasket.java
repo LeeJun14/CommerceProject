@@ -55,4 +55,8 @@ public class ShoppingBasket {
     public void basketClear(){
         shoppingBasket.clear();
     }
+
+    public void removeProduct(String productName){
+        shoppingBasket.removeIf(product -> product.getName().equals(productName));
+    }
 }
