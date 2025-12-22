@@ -11,6 +11,7 @@ public class CommerceSystem {
     Scanner sc = new Scanner(System.in);
     ShoppingBasket shoppingBasket = new ShoppingBasket();
     AdminMode password = new AdminMode();
+    Customer rating = new Customer();
 
 
     public void start(){
@@ -59,19 +60,36 @@ public class CommerceSystem {
                 }
                 // 주문 및 재고 업데이트
                 if(order == 1){
-                    System.out.println("주문이 완료되었습니다! 총 금액: " + totalPrice + "원");
-                    for(Product product : basketDetails){
-                        for (Product category : categories.getProducts()) {
-                            if(category.getName().equals(product.getName())){
-                                int originalQuantity = category.getQuantity();
-                                int newQuantity = (category.getQuantity() - product.getQuantity());
-                                categories.updateQuantity(product.getName(), product.getQuantity());
-                                System.out.println(product.getName() + "재고가 " + originalQuantity + " → " + newQuantity + "개로 업데이트되었습니다.");
+                    // 회원 등급 확인
+                    System.out.println("1. BRONZE: 0% 할인");
+                    System.out.println("2. SILVER: 5% 할인");
+                    System.out.println("3. GOLD: 10% 할인");
+                    System.out.println("4. PLATINUM: 15% 할인");
+
+
+                    int choiceRating = sc.nextInt();
+
+                    // 회원 등급 선택 예외 처리
+                    try {
+                        rating.printOrderPrice(choiceRating, totalPrice);
+
+                        for(Product product : basketDetails){
+                            for (Product category : categories.getProducts()) {
+                                if(category.getName().equals(product.getName())){
+                                    int originalQuantity = category.getQuantity();
+                                    int newQuantity = (category.getQuantity() - product.getQuantity());
+                                    categories.updateQuantity(product.getName(), product.getQuantity());
+                                    System.out.println(product.getName() + "재고가 " + originalQuantity + " → " + newQuantity + "개로 업데이트되었습니다.");
+                                }
                             }
                         }
+                        // 장바구니 초기화
+                        shoppingBasket.basketClear();
+                    } catch (IllegalArgumentException e) {
+                        System.out.println(e.getMessage());
+                        System.out.println("다시 입력해주세요.");
                     }
-                    // 장바구니 초기화
-                    shoppingBasket.basketClear();
+
                     continue;
                 } else if(order == 2){
                     continue;
@@ -225,13 +243,35 @@ public class CommerceSystem {
             // 선택된 카테고리의 상품 목록 리스트로 관리
             List<Product> filteredProducts = filterProducts(selectedCategory);
 
+            // 선택된 카테고리의 상품 목록 필터링
+            System.out.println("[ " + getChoiceCategory(choiceCategory) + " 카테고리 ]");
+            System.out.println("1. 전체 상품 보기");
+            System.out.println("2. 가격대별 필터링 (100만원 이하)");
+            System.out.println("3. 가격대별 필터링 (100만원 초과)");
+            System.out.println("0. 뒤로가기");
+
+            int choiceFilter = sc.nextInt();
+
+            if(choiceFilter == 1){
+                // 선택된 카테고리의 상품 목록 출력
+                displayProducts(filteredProducts);
+            } else if(choiceFilter == 2){
+                filteredProducts = filteredProducts.stream().filter(product -> product.getPrice() <= 1000000).collect(Collectors.toList());
+                displayProducts(filteredProducts);
+            } else if(choiceFilter == 3){
+                filteredProducts = filteredProducts.stream().filter(product -> product.getPrice() > 1000000).collect(Collectors.toList());
+                displayProducts(filteredProducts);
+            } else if(choiceFilter == 0){
+                continue;
+            } else {
+                System.out.println("잘못된 선택입니다. 다시 입력해주세요.");
+                continue;
+            }
+
             if(filteredProducts.isEmpty()){
                 System.out.println("해당 카테고리에는 상품이 존재하지 않습니다.\n");
                 continue;
             }
-
-            // 선택된 카테고리의 상품 목록 출력
-            displayProducts(filteredProducts);
 
             // 상품 선택
             int choiceProduct = sc.nextInt();
