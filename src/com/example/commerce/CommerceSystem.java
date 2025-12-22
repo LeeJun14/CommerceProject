@@ -243,6 +243,11 @@ public class CommerceSystem {
             // 선택된 카테고리의 상품 목록 리스트로 관리
             List<Product> filteredProducts = filterProducts(selectedCategory);
 
+            if(filteredProducts.isEmpty()){
+                System.out.println("해당 카테고리에는 상품이 존재하지 않습니다.\n");
+                continue;
+            }
+
             // 선택된 카테고리의 상품 목록 필터링
             System.out.println("[ " + getChoiceCategory(choiceCategory) + " 카테고리 ]");
             System.out.println("1. 전체 상품 보기");
@@ -250,17 +255,20 @@ public class CommerceSystem {
             System.out.println("3. 가격대별 필터링 (100만원 초과)");
             System.out.println("0. 뒤로가기");
 
+            List<Product> displayProducts;
+
             int choiceFilter = sc.nextInt();
 
             if(choiceFilter == 1){
                 // 선택된 카테고리의 상품 목록 출력
-                displayProducts(filteredProducts);
+                displayProducts = filteredProducts;
+                displayProducts(displayProducts);
             } else if(choiceFilter == 2){
-                filteredProducts = filteredProducts.stream().filter(product -> product.getPrice() <= 1000000).collect(Collectors.toList());
-                displayProducts(filteredProducts);
+                displayProducts = filteredProducts.stream().filter(product -> product.getPrice() <= 1000000).collect(Collectors.toList());
+                displayProducts(displayProducts);
             } else if(choiceFilter == 3){
-                filteredProducts = filteredProducts.stream().filter(product -> product.getPrice() > 1000000).collect(Collectors.toList());
-                displayProducts(filteredProducts);
+                displayProducts = filteredProducts.stream().filter(product -> product.getPrice() > 1000000).collect(Collectors.toList());
+                displayProducts(displayProducts);
             } else if(choiceFilter == 0){
                 continue;
             } else {
@@ -268,8 +276,8 @@ public class CommerceSystem {
                 continue;
             }
 
-            if(filteredProducts.isEmpty()){
-                System.out.println("해당 카테고리에는 상품이 존재하지 않습니다.\n");
+            if (displayProducts.isEmpty()) {
+                System.out.println("해당 조건에 맞는 상품이 존재하지 않습니다.\n");
                 continue;
             }
 
@@ -280,12 +288,12 @@ public class CommerceSystem {
             if(choiceProduct == 0){
                 System.out.println("메인 화면으로 돌아갑니다.\n");
                 continue;
-            } else if(choiceProduct > filteredProducts.size() || choiceProduct < 0) {
+            } else if(choiceProduct > displayProducts.size() || choiceProduct < 0) {
                 System.out.println("입력하신 숫자에 해당하는 상품이 존재하지 않습니다.\n");
                 continue;
             }
             // 선택된 상품 저장
-            Product selectProduct = selectProduct(filteredProducts, choiceProduct);
+            Product selectProduct = selectProduct(displayProducts, choiceProduct);
             confirmAddToBasket(selectProduct);
 
             int addShoppingBasket = sc.nextInt();
